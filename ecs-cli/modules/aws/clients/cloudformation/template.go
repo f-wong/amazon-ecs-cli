@@ -377,7 +377,9 @@ var template = `
         },
         "Path": "/",
         "ManagedPolicyArns": [
-          "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+          "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+          "arn:aws:iam::aws:policy/AmazonEC2FullAccess",
+          "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
         ]
       }
     },
@@ -424,6 +426,8 @@ var template = `
               "",
               [
                 "#!/bin/bash\n",
+                "yum install -y aws-cli\n",
+		"aws s3 cp s3://ec2-instance-bootstrap/ecs/docker-hub/ecs.config /etc/ecs/ecs.config\n",
                 "echo ECS_CLUSTER=",
                 {
                   "Ref": "EcsCluster"
