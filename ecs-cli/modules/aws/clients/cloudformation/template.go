@@ -426,13 +426,24 @@ var template = `
               "",
               [
                 "#!/bin/bash\n",
-                "yum install -y aws-cli\n",
+		"yum -y update\n",
+                "yum install -y aws-cli nfs-utils\n",
 		"aws s3 cp s3://ec2-instance-bootstrap/ecs/docker-hub/ecs.config /etc/ecs/ecs.config\n",
                 "echo ECS_CLUSTER=",
                 {
                   "Ref": "EcsCluster"
                 },
-                " >> /etc/ecs/ecs.config\n"
+                " >> /etc/ecs/ecs.config\n",
+		"aws s3 cp s3://ec2-instance-bootstrap/ecs/cluster/",
+                {
+                  "Ref": "EcsCluster"
+                },
+		" /root\n",
+		"bash /root/",
+                {
+                  "Ref": "EcsCluster"
+                },
+		"\n"
               ]
             ]
           }
